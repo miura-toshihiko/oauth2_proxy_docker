@@ -8,14 +8,8 @@ RUN curl -sL -o oauth2_proxy.tar.gz \
   && mv oauth2_proxy-2.1.linux-amd64.go1.6/oauth2_proxy /bin/ \
   && chmod +x /bin/oauth2_proxy \
   && rm -r oauth2_proxy*
+  
+COPY startup.sh /startup.sh
+RUN chmod 744 /startup.sh
 
-CMD /bin/oauth2_proxy \
-    -provider="github" \
-    -github-org="${OAUTH2_PROXY_GITHUB_ORG}" \
-    -github-team="${OAUTH2_PROXY_GITHUB_TEAM}" \
-    -http-address="0.0.0.0:4180" \
-    -redirect-url="${OAUTH2_PROXY_REDIREC_URL}" \
-    -upstream="${upstream}" \
-    -email-domain="*" \
-    -cookie-domain="${OAUTH2_PROXY_COOKIE_DOMAIN}" \
-    -cookie-refresh="${OAUTH2_PROXY_COOKIE_REFRESH}"
+CMD ["/startup.sh"]
